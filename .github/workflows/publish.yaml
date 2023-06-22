@@ -1,0 +1,29 @@
+name: 'Publish to CloudFlare'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'src/**'
+      - 'package-lock.json'
+
+jobs:
+  pipeline:
+    name: 'Pipeline'
+    environment: 'production'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v3
+
+      - name: 'Install dependencies'
+        run: |
+          npm install
+
+      - name: 'Upload to CloudFlare'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          npm run deploy
