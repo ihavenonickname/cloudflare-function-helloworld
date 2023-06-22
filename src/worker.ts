@@ -27,12 +27,14 @@ function createJsonResponse(obj: any): Response {
 
 export default {
     async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+        const urlLength = request.url.length;
+
         const headerInfo = [];
 
         for (const [key, value] of request.headers) {
             headerInfo.push({ key, length: value.length })
         }
 
-        return createJsonResponse({ headerInfo, hello: 'world' })
+        return createJsonResponse({ urlLength, headerInfo, hello: 'world' })
     },
 };
